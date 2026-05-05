@@ -22,7 +22,7 @@ public class GuttyBehaviour : MonoBehaviour
     {
         get;
         private set;
-    }
+    } = 100; 
 
     // Start is called before the first frame update
     void Awake()
@@ -44,7 +44,7 @@ public class GuttyBehaviour : MonoBehaviour
 
     public void SetHealth(float val)
     {
-        if (!initialized)
+        if (!IsReady())
         {
             Debug.LogError($"Tried setting Health of {this.gameObject} while not initialized!");
             return;
@@ -64,26 +64,14 @@ public class GuttyBehaviour : MonoBehaviour
 
     private void Update()
     {
-        if (!initialized)
-        {
-            if (!IsReady()) return;
-            Initialize();
-            return;
-        }
-
+        if (!IsReady()) return;
+ 
         if (GameManager.instance.GameStarted)
         SetHealth(health - Time.deltaTime*decaySpeed);
     }
 
-    public bool initialized { get; private set; } = false;
     bool statusBarLoaded = false;
     bool guttyVisLoaded = false;
-
-    private void Initialize()
-    {
-        SetHealth(100);
-        initialized = true;
-    }
 
     public bool IsReady()
     {
