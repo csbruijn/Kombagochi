@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Ripple : MonoBehaviour
 {
-    private void Awake()
+    private void Start()
     {
         GameManager.instance.SetRipple(gameObject);
     }

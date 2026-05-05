@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour
 
     public GameObject Ripple { get; private set; }
 
+    public bool GameStarted { get; private set; } = true; 
+
     private void Awake()
     {
         if (instance == null) instance = this;
