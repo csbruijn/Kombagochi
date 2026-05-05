@@ -1,16 +1,29 @@
+using Rive.Components;
 using UnityEngine;
 
 public class NutriBehaviour : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    [SerializeField] private RiveWidget ripple; 
 
-    // Update is called once per frame
-    void Update()
+    [SerializeField] private float ripplePushCD = .5f;
+    private float timer = 0f;
+
+
+    private void FixedUpdate()
     {
-        
+        if (timer < 0f) timer -= Time.deltaTime;
+    }
+    public void HandleRipplePush()
+    {
+        if (timer > 0f) return;
+
+
+        // trigger the rive widget
+         
+        // set the CD
+
+        timer = ripplePushCD; 
+
+
     }
 }
