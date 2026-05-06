@@ -3,6 +3,7 @@ using Rive.Components;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GuttyBehaviour : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class GuttyBehaviour : MonoBehaviour
     private ViewModelInstanceTriggerProperty EatTrig;
     [SerializeField] private string EatTrigName;
 
+
     public float health
     {
         get;
@@ -32,8 +34,9 @@ public class GuttyBehaviour : MonoBehaviour
         {
             Debug.LogError("No nutridetect capability attached.");
         }
-        else NutriDetect.GB = this;
+        //else NutriDetect.GB = this;
     }
+
 
     public void HandleNutriMatch(NutriBehaviour nb)
     {
@@ -83,12 +86,15 @@ public class GuttyBehaviour : MonoBehaviour
 
     void OnEnable()
     {
+
+        NutriDetect.OnEaten += HandleNutriMatch;
         statusbar.OnWidgetStatusChanged += OnStatusBarStatusChanged;
         Gutty.OnWidgetStatusChanged += OnGuttyStatusChanged;
     }
 
     void OnDisable() 
     {
+        NutriDetect.OnEaten -= HandleNutriMatch;
         statusbar.OnWidgetStatusChanged -= OnStatusBarStatusChanged;
         Gutty.OnWidgetStatusChanged -= OnGuttyStatusChanged;
     }

@@ -12,8 +12,6 @@ GameObject:
   - component: {fileID: 4067183036469459233}
   - component: {fileID: 1177527324350069019}
   - component: {fileID: 7871572762517919119}
-  - component: {fileID: 8516242475991454166}
-  - component: {fileID: 3757786105965466795}
   m_Layer: 0
   m_Name: Quad - Gutty
   m_TagString: Untagged
@@ -110,54 +108,6 @@ MonoBehaviour:
       - _BaseMap
       - _EmissionMap
       - _OcclusionMap
---- !u!58 &8516242475991454166
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 42462312776538833}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.5
---- !u!114 &3757786105965466795
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 42462312776538833}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52191c96f47dd9649810cae33919b593, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GuttyBehaviour
-  GB: {fileID: 0}
 --- !u!1 &142407323848894092
 GameObject:
   m_ObjectHideFlags: 0
@@ -692,6 +642,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5083207382202620005}
   - component: {fileID: 9007956041503365319}
+  - component: {fileID: 8525174464820628954}
+  - component: {fileID: 626857117544968229}
   m_Layer: 0
   m_Name: Gutty
   m_TagString: Untagged
@@ -734,3 +686,50 @@ MonoBehaviour:
   HealthMountName: health
   Gutty: {fileID: 1509474251113802759}
   EatTrigName: null
+--- !u!58 &8525174464820628954
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5759187096575391326}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
+--- !u!114 &626857117544968229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5759187096575391326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52191c96f47dd9649810cae33919b593, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

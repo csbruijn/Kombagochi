@@ -10,4 +10,9 @@ public class LobbyBehaviour : MonoBehaviour
 
         SceneManager.LoadScene(1); 
     }
+
+    public void OnGameClose()
+    {
+        Application.Quit();
+    }
 }
