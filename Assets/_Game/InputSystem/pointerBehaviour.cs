@@ -13,7 +13,7 @@ public class pointerBehaviour : MonoBehaviour
     private ViewModelInstanceTriggerProperty RippleTrig;
     [SerializeField] private string trigName = "rippleTrig";
 
-    [SerializeField] private float rippleRadius = 3f;
+    [SerializeField] private float rippleRadius = 2f;
     [SerializeField] private float rippleForce = 10f;
 
 
@@ -52,7 +52,7 @@ public class pointerBehaviour : MonoBehaviour
     
     public void OnClick(InputValue input)
     {
-        Debug.Log("Click");
+        //Debug.Log("Click");
 
         Vector2 screenPos = Mouse.current.position.ReadValue();
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(screenPos);
@@ -69,7 +69,7 @@ public class pointerBehaviour : MonoBehaviour
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(origin, rippleRadius);
 
-        Debug.Log(hits.Length);
+        //Debug.Log(hits.Length);
         foreach (Collider2D hit in hits)
         {
             if (!hit.TryGetComponent<NutriBehaviour>(out NutriBehaviour nb)) continue;

@@ -2,6 +2,7 @@ using Rive;
 using Rive.Components;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem; 
@@ -12,13 +13,8 @@ public class GuttyBehaviour : MonoBehaviour
     public NutriType nutriCompetibility;
     
     [Header("Health")]
-    [SerializeField] private float nutriValueTest = 50;
     [SerializeField] private float decaySpeed = 1f;
-    public float health { get; private set; } = 100;
-
-
-   // [SerializeField] private RiveWidget statusbar;
-    
+    public float health { get; private set; } = 100;    
 
     [Header("Rive widget")]
     [SerializeField] private RiveWidget Gutty;
@@ -44,24 +40,59 @@ public class GuttyBehaviour : MonoBehaviour
     [SerializeField] private UnityEngine.Color blue;
     [SerializeField] private UnityEngine.Color yellow;
 
+    [Header("fattyAcid")]
+    [SerializeField] private GameObject NutriFattyAcid;
 
-    // Start is called before the first frame update
+
     void Awake()
     {
         NutriDetect = GetComponentInChildren<NutriDetect>();
-        if (NutriDetect == null)
-        {
+        if (NutriDetect == null) 
             Debug.LogError("No nutridetect capability attached.");
-        }
-        //else NutriDetect.GB = this;
     }
 
-
-    public void HandleNutriMatch(NutriBehaviour nb)
+    public void HandleNutriMatch(NutriBehaviour nb, GuttyBehaviour gb)
     {
+        if (gb != this) return;
+
+        if (health <= 0) return; 
+        
         Debug.Log("Eat nutri");
         Destroy(nb.gameObject);
-        SetHealth(health + nutriValueTest);
+        SetHealth(health + nb.nutriValue);
+
+        SpawnFattyAcid();
+    }
+
+    private void SpawnFattyAcid()
+    {
+        NutriType fattyType; 
+
+        switch (nutriCompetibility)
+        {
+            case NutriType.Blue:
+                fattyType = NutriType.Green;                
+                break;
+            case NutriType.Green:
+                fattyType = NutriType.Red;
+                break;
+            case NutriType.Red:
+                fattyType = NutriType.Yellow;
+                break;
+            case NutriType.Yellow:
+                fattyType = NutriType.Blue;
+                break;
+            default:
+                fattyType = NutriType.Yellow;
+                Debug.LogError($"Unrecognised nutriType {nutriCompetibility}", this); 
+                break;
+        }
+
+        Vector2 pos = new Vector2(transform.position.x, transform.position.y + 2);
+        GameObject obj = Instantiate(NutriFattyAcid, pos , Quaternion.identity);
+        obj.GetComponent<NutriBehaviour>().nutriType = fattyType;
+
+        obj.GetComponent<Rigidbody2D>().AddForce(Vector2.up, ForceMode2D.Impulse);
     }
 
     public void SetHealth(float val)
@@ -128,7 +159,6 @@ public class GuttyBehaviour : MonoBehaviour
     
     private void OnWidgetStatusChanged()
     {
-
         if (Gutty.Status != WidgetStatus.Loaded)
             return;
 
@@ -170,11 +200,8 @@ public class GuttyBehaviour : MonoBehaviour
             case NutriType.Yellow:
                 primaryColour.Value = yellow;
                 break;
-
         }
-
         guttyVisLoaded = true;
-
     }
 
     public enum GuttyStates

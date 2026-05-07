@@ -1,5 +1,6 @@
 using Rive.Components;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -20,4 +21,6 @@ public class GameManager : MonoBehaviour
         Ripple = rw;
     }
 
+    public void SceneReset() =>
+        SceneManager.LoadScene(1);
 }

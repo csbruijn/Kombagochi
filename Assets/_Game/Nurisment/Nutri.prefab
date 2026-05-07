@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 571f9a1ddc26f1646bcd7a67fc2216df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NutriBehaviour
-  instanceNames: []
+  nutriValue: 20
   riveWidget: {fileID: 8504867548168325557}
   ripplePushCD: 0.5
   nutriType: 0

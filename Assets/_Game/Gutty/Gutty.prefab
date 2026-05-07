@@ -384,8 +384,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3014099151902771674}
   - {fileID: 9065324531011477183}
@@ -440,7 +440,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Rive.Runtime.Components::Rive.Components.RiveWidget
   m_rivePanel: {fileID: 8950979990661911270}
-  m_asset: {fileID: -4516626237390682484, guid: b87c919e79cf013449d3dd51d3b87125, type: 3}
+  m_asset: {fileID: -4516626237390682484, guid: 4c3bff4ee2c660c4591c6e96e80ab0b5, type: 3}
   m_artboardName: Artboard
   m_stateMachineName: State Machine 1
   m_fit: 1
@@ -681,7 +681,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nutriCompetibility: 0
-  nutriValueTest: 50
   decaySpeed: 1
   Gutty: {fileID: 1509474251113802759}
   EatTrigName: null
@@ -693,6 +692,7 @@ MonoBehaviour:
   green: {r: 0.5921569, g: 0.87058824, b: 0.14509805, a: 1}
   blue: {r: 0.17254902, g: 0.37254903, b: 0.95686275, a: 1}
   yellow: {r: 0.9529412, g: 0.60784316, b: 0.07058824, a: 1}
+  NutriFattyAcid: {fileID: 7215626115658436412, guid: 0069f1e020edb2b459f64f48d13dd109, type: 3}
 --- !u!58 &8525174464820628954
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -727,7 +727,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 1
 --- !u!114 &626857117544968229
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -8,9 +8,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3239469160309462093, guid: e072bbec3860f9b408ca09529cb27928, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3239469160309462093, guid: e072bbec3860f9b408ca09529cb27928, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3239469160309462093, guid: e072bbec3860f9b408ca09529cb27928, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3239469160309462093, guid: e072bbec3860f9b408ca09529cb27928, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3544764352124772396, guid: e072bbec3860f9b408ca09529cb27928, type: 3}
       propertyPath: m_Name
-      value: Nutri
+      value: Nutri FattyAcid
       objectReference: {fileID: 0}
     - target: {fileID: 5546326426415490254, guid: e072bbec3860f9b408ca09529cb27928, type: 3}
       propertyPath: m_LocalPosition.x
@@ -51,6 +67,14 @@ PrefabInstance:
     - target: {fileID: 5546326426415490254, guid: e072bbec3860f9b408ca09529cb27928, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6669882126474858531, guid: e072bbec3860f9b408ca09529cb27928, type: 3}
+      propertyPath: nutriValue
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7765778459859084676, guid: e072bbec3860f9b408ca09529cb27928, type: 3}
+      propertyPath: m_Radius
+      value: 0.25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
