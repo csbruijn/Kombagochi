@@ -267,7 +267,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3421294856805427034
 RectTransform:
   m_ObjectHideFlags: 0
@@ -440,7 +440,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Rive.Runtime.Components::Rive.Components.RiveWidget
   m_rivePanel: {fileID: 8950979990661911270}
-  m_asset: {fileID: -4516626237390682484, guid: 7578d11d85e9239479b26c205f5d3652, type: 3}
+  m_asset: {fileID: -4516626237390682484, guid: b87c919e79cf013449d3dd51d3b87125, type: 3}
   m_artboardName: Artboard
   m_stateMachineName: State Machine 1
   m_fit: 1
@@ -615,7 +615,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &9065324531011477183
 Transform:
   m_ObjectHideFlags: 0
@@ -680,12 +680,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6aacfd56ac40b7343983290630e673f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nutriCompetibility: 0
   nutriValueTest: 50
   decaySpeed: 1
-  statusbar: {fileID: 3398540116366980630}
-  HealthMountName: health
   Gutty: {fileID: 1509474251113802759}
   EatTrigName: null
+  HealthMountName: health
+  EyeXName: followX
+  EyeYName: followY
+  colourName: colourPrimary
+  red: {r: 0.87058824, g: 0.14509805, b: 0.14509805, a: 1}
+  green: {r: 0.5921569, g: 0.87058824, b: 0.14509805, a: 1}
+  blue: {r: 0.17254902, g: 0.37254903, b: 0.95686275, a: 1}
+  yellow: {r: 0.9529412, g: 0.60784316, b: 0.07058824, a: 1}
 --- !u!58 &8525174464820628954
 CircleCollider2D:
   m_ObjectHideFlags: 0

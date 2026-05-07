@@ -48,8 +48,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 571f9a1ddc26f1646bcd7a67fc2216df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NutriBehaviour
-  ripple: {fileID: 0}
+  instanceNames: []
+  riveWidget: {fileID: 8504867548168325557}
   ripplePushCD: 0.5
+  nutriType: 0
 --- !u!58 &7765778459859084676
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -238,8 +240,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Rive.Runtime.Components::Rive.Components.RiveWidget
   m_rivePanel: {fileID: 1187941652741617290}
-  m_asset: {fileID: -4516626237390682484, guid: 3298fa69028aec1498517485dad86450, type: 3}
-  m_artboardName: Artboard
+  m_asset: {fileID: -4516626237390682484, guid: a70bfe29ae9394143b3c87368b6e4199, type: 3}
+  m_artboardName: Nurishment
   m_stateMachineName: State Machine 1
   m_fit: 1
   m_alignment:

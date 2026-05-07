@@ -38,6 +38,7 @@ public class NutriSpawner : MonoBehaviour
     {
         GameObject obj = Instantiate(nutriPrefab, position, Quaternion.identity);
         activeNutris.Add(obj);
+        obj.GetComponent<NutriBehaviour>().RandomType();
     }
 
     private void HandleNutriEaten(NutriBehaviour nutri)
