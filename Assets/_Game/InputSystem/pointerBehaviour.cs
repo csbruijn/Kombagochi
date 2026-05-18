@@ -72,7 +72,8 @@ public class pointerBehaviour : MonoBehaviour
         //Debug.Log(hits.Length);
         foreach (Collider2D hit in hits)
         {
-            if (!hit.TryGetComponent<NutriBehaviour>(out NutriBehaviour nb)) continue;
+            if (!hit.TryGetComponent<NutriBehaviour>(out NutriBehaviour nb) 
+                && !hit.TryGetComponent<GuttyBehaviour>(out GuttyBehaviour gb)) continue;
 
             if (!hit.TryGetComponent<Rigidbody2D>(out Rigidbody2D rb)) continue;
 

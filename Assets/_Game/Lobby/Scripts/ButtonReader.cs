@@ -18,6 +18,9 @@ public class ButtonReader : MonoBehaviour
     [Tooltip("Invoked when the Rive file fires the gameOver trigger.")]
     public UnityEvent OnGameStart = new UnityEvent();
 
+    [SerializeField] private string buttonTxPropNamet = "buttonText";
+    [SerializeField] private string buttonTxt = "Redeem & Play"; 
+
     void OnEnable()
     {
         if (m_riveWidget == null)
@@ -69,6 +72,15 @@ public class ButtonReader : MonoBehaviour
 
         mOnGameStartProp.OnTriggered += HandleButtonTriggeredFromRive;
 
+        // Get the gameOver property by name.
+        ViewModelInstanceStringProperty buttonTxtProp = viewModelInstance.GetStringProperty(buttonTxPropNamet);
+        if (buttonTxtProp == null)
+        {
+            Debug.LogError($"{nameof(ButtonReader)}: Trigger property '{buttonTxPropNamet}' not found.", this);
+            return;
+        }
+
+        buttonTxtProp.Value = buttonTxt; 
     }
 
     private void HandleButtonTriggeredFromRive()

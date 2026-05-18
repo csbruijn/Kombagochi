@@ -1,87 +1,119 @@
+using System.Collections.Generic;
 using UnityEngine;
 
+[DefaultExecutionOrder(-100)]
 public class CameraBounds : MonoBehaviour
 {
-    [SerializeField] private float wallThickness = 1f;
+    private float _height;
+    private float _width;
+    private int _lastScreenWidth;
+    private int _lastScreenHeight;
 
-    private BoxCollider2D topWall;
-    private BoxCollider2D bottomWall;
-    private BoxCollider2D leftWall;
-    private BoxCollider2D rightWall;
+    private Rigidbody2D[] _bodies;
+    private float _refreshTimer;
+    private const float BodyRefreshInterval = 2f;
 
-    private int lastScreenWidth;
-    private int lastScreenHeight;
+    [SerializeField] private float wrapCooldown = 1f;
+    private readonly Dictionary<Rigidbody2D, float> _cooldowns = new();
 
     private void Start()
     {
-        CreateWalls();
-        UpdateWalls();
-
-        lastScreenWidth = Screen.width;
-        lastScreenHeight = Screen.height;
+        UpdateBounds();
+        RefreshBodies();
+        _lastScreenWidth = Screen.width;
+        _lastScreenHeight = Screen.height;
     }
 
     private void Update()
     {
-        // Detect resolution/aspect-ratio changes
-        if (Screen.width != lastScreenWidth || Screen.height != lastScreenHeight)
+        if (Screen.width != _lastScreenWidth || Screen.height != _lastScreenHeight)
         {
-            UpdateWalls();
+            UpdateBounds();
+            _lastScreenWidth = Screen.width;
+            _lastScreenHeight = Screen.height;
+        }
 
-            lastScreenWidth = Screen.width;
-            lastScreenHeight = Screen.height;
+        _refreshTimer += Time.deltaTime;
+        if (_refreshTimer >= BodyRefreshInterval)
+        {
+            RefreshBodies();
+            _refreshTimer = 0f;
         }
     }
 
-    private void CreateWalls()
+    private void FixedUpdate()
     {
-        topWall = CreateWall("Wall_Top");
-        bottomWall = CreateWall("Wall_Bottom");
-        leftWall = CreateWall("Wall_Left");
-        rightWall = CreateWall("Wall_Right");
+        TickCooldowns();
+        WrapBodies();
     }
 
-    private void UpdateWalls()
+    private void UpdateBounds()
     {
         Camera cam = Camera.main;
-
-        float height = cam.orthographicSize;
-        float width = height * cam.aspect;
-
-        // Top
-        topWall.transform.position =
-            new Vector2(0, height + wallThickness / 2);
-
-        topWall.size =
-            new Vector2(width * 2 + wallThickness * 2, wallThickness);
-
-        // Bottom
-        bottomWall.transform.position =
-            new Vector2(0, -height - wallThickness / 2);
-
-        bottomWall.size =
-            new Vector2(width * 2 + wallThickness * 2, wallThickness);
-
-        // Right
-        rightWall.transform.position =
-            new Vector2(width + wallThickness / 2, 0);
-
-        rightWall.size =
-            new Vector2(wallThickness, height * 2 + wallThickness * 2);
-
-        // Left
-        leftWall.transform.position =
-            new Vector2(-width - wallThickness / 2, 0);
-
-        leftWall.size =
-            new Vector2(wallThickness, height * 2 + wallThickness * 2);
+        _height = cam.orthographicSize;
+        _width = _height * cam.aspect;
     }
 
-    private BoxCollider2D CreateWall(string name)
+    private void RefreshBodies()
     {
-        GameObject wall = new GameObject(name);
-        wall.transform.parent = transform;
+        _bodies = FindObjectsByType<Rigidbody2D>(FindObjectsSortMode.None);
 
-        return wall.AddComponent<BoxCollider2D>();
+        // Clean up any destroyed bodies from the cooldown table
+        var keys = new List<Rigidbody2D>(_cooldowns.Keys);
+        foreach (var key in keys)
+            if (key == null) _cooldowns.Remove(key);
+    }
+
+    private void TickCooldowns()
+    {
+        var keys = new List<Rigidbody2D>(_cooldowns.Keys);
+        foreach (var key in keys)
+        {
+            if (key == null) { _cooldowns.Remove(key); continue; }
+            _cooldowns[key] -= Time.fixedDeltaTime;
+            if (_cooldowns[key] <= 0f) _cooldowns.Remove(key);
+        }
+    }
+
+    private void WrapBodies()
+    {
+        foreach (Rigidbody2D rb in _bodies)
+        {
+            if (rb == null) continue;
+            if (_cooldowns.ContainsKey(rb)) continue; // still on cooldown
+
+            Vector2 pos = rb.position;
+            bool wrapped = false;
+
+            if (pos.x > _width)
+            {
+                pos.x = -_width + (pos.x - _width);
+                wrapped = true;
+            }
+            else if (pos.x < -_width)
+            {
+                pos.x = _width + (pos.x + _width);
+                wrapped = true;
+            }
+
+            if (pos.y > _height)
+            {
+                pos.y = -_height + (pos.y - _height);
+                wrapped = true;
+            }
+            else if (pos.y < -_height)
+            {
+                pos.y = _height + (pos.y + _height);
+                wrapped = true;
+            }
+
+            if (wrapped)
+            {
+                Vector2 vel = rb.velocity;
+                rb.position = pos;
+                rb.velocity = vel;
+                _cooldowns[rb] = wrapCooldown;
+            }
+        }
     }
 }
