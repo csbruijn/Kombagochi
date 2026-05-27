@@ -7,31 +7,40 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem; 
 
-public class GuttyBehaviour : MonoBehaviour
+public class MicrobeeBehaviour : MonoBehaviour
 {
+    public bool isSimulated { get; private set; }  
+
     private NutriDetect NutriDetect;
     public NutriType nutriCompetibility;
     
     [Header("Health")]
     [SerializeField] private float decaySpeed = 1f;
-    public float health { get; private set; } = 100;    
+    public float health { get; private set; } = 50;
+    public float size { get; private set; } = 0;
+    bool markedToSplit = false;
+
+    [Header("fattyAcid")]
+    [SerializeField] private bool spawnNutri;
+    [SerializeField] private GameObject NutriFattyAcid;
 
     [Header("Rive widget")]
+    bool guttyVisLoaded = false;
     [SerializeField] private RiveWidget Gutty;
 
     private ViewModelInstanceTriggerProperty EatTrig;
     [SerializeField] private string EatTrigName;
 
     private ViewModelInstanceNumberProperty HealthMount;
-    [SerializeField] private string HealthMountName;
+    [SerializeField] private string HealthMountName = "health";
 
     private ViewModelInstanceNumberProperty EyeX;
     private ViewModelInstanceNumberProperty EyeY;
-    [SerializeField] private string EyeXName = "eyeX";
-    [SerializeField] private string EyeYName = "eyeY";
+    [SerializeField] private string EyeXName = "followX";
+    [SerializeField] private string EyeYName = "followY";
 
     private ViewModelInstanceColorProperty primaryColour;
-    [SerializeField] private string colourName = "primaryColour";
+    [SerializeField] private string colourName = "colourPrimary";
 
     [Header("Dumb way to do colours to check if it works")]
 
@@ -40,18 +49,27 @@ public class GuttyBehaviour : MonoBehaviour
     [SerializeField] private UnityEngine.Color blue;
     [SerializeField] private UnityEngine.Color yellow;
 
-    [Header("fattyAcid")]
-    [SerializeField] private GameObject NutriFattyAcid;
 
 
     void Awake()
     {
+        if (isSimulated) return;
         NutriDetect = GetComponentInChildren<NutriDetect>();
         if (NutriDetect == null) 
             Debug.LogError("No nutridetect capability attached.");
     }
 
-    public void HandleNutriMatch(NutriBehaviour nb, GuttyBehaviour gb)
+    private void Update()
+    {
+        if (!IsReady()) return;
+
+        if (GameManager.instance.GameStarted && !isSimulated)
+            SetHealth(health - Time.deltaTime * decaySpeed);
+
+        UpdateEyes();
+    }
+
+    public void HandleNutriMatch(NutriBehaviour nb, MicrobeeBehaviour gb)
     {
         if (gb != this) return;
 
@@ -60,39 +78,11 @@ public class GuttyBehaviour : MonoBehaviour
         Debug.Log("Eat nutri");
         Destroy(nb.gameObject);
         SetHealth(health + nb.nutriValue);
+        SetSize(size + 1);
 
+
+        if (!spawnNutri) return;
         SpawnFattyAcid();
-    }
-
-    private void SpawnFattyAcid()
-    {
-        NutriType fattyType; 
-
-        switch (nutriCompetibility)
-        {
-            case NutriType.Blue:
-                fattyType = NutriType.Green;                
-                break;
-            case NutriType.Green:
-                fattyType = NutriType.Red;
-                break;
-            case NutriType.Red:
-                fattyType = NutriType.Yellow;
-                break;
-            case NutriType.Yellow:
-                fattyType = NutriType.Blue;
-                break;
-            default:
-                fattyType = NutriType.Yellow;
-                Debug.LogError($"Unrecognised nutriType {nutriCompetibility}", this); 
-                break;
-        }
-
-        Vector2 pos = new Vector2(transform.position.x, transform.position.y + 2);
-        GameObject obj = Instantiate(NutriFattyAcid, pos , Quaternion.identity);
-        obj.GetComponent<NutriBehaviour>().nutriType = fattyType;
-
-        obj.GetComponent<Rigidbody2D>().AddForce(Vector2.up, ForceMode2D.Impulse);
     }
 
     public void SetHealth(float val)
@@ -115,14 +105,36 @@ public class GuttyBehaviour : MonoBehaviour
         HealthMount.Value = newVal;   
     }
 
-    private void Update()
+    public void SetSize(float val)
     {
-        if (!IsReady()) return;
- 
-        if (GameManager.instance.GameStarted)
-        SetHealth(health - Time.deltaTime*decaySpeed);
+        if (!IsReady())
+        {
+            Debug.LogError($"Tried setting Health of {this.gameObject} while not initialized!");
+            return;
+        }
+        if (markedToSplit) return; 
 
-        UpdateEyes();
+        float newVal;
+
+        if (val >= 10)
+        {
+            newVal = 10; 
+            markedToSplit = true;
+            StartCoroutine(SplitMicrobee(0)); //PERHAPS HERE I TIME IT WITH THE ANIMATOR
+        }
+        else if (val > 0 && val < 10)
+        {
+            newVal = val;
+        }
+        else
+        {
+            newVal = 0;
+        }
+
+        size = newVal;
+
+        float scale = (20 + val) / 20;  
+        transform.localScale = new Vector3(scale, scale, scale);
     }
 
     private void UpdateEyes()
@@ -136,8 +148,44 @@ public class GuttyBehaviour : MonoBehaviour
         EyeY.Value = -dir.y +10;
     }
 
+    private void SpawnFattyAcid()
+    {
+        NutriType fattyType;
 
-    bool guttyVisLoaded = false;
+        switch (nutriCompetibility)
+        {
+            case NutriType.Blue:
+                fattyType = NutriType.Green;
+                break;
+            case NutriType.Green:
+                fattyType = NutriType.Red;
+                break;
+            case NutriType.Red:
+                fattyType = NutriType.Yellow;
+                break;
+            case NutriType.Yellow:
+                fattyType = NutriType.Blue;
+                break;
+            default:
+                fattyType = NutriType.Yellow;
+                Debug.LogError($"Unrecognised nutriType {nutriCompetibility}", this);
+                break;
+        }
+
+        Vector2 pos = new Vector2(transform.position.x, transform.position.y + 2);
+        GameObject obj = Instantiate(NutriFattyAcid, pos, Quaternion.identity);
+        obj.GetComponent<NutriBehaviour>().nutriType = fattyType;
+
+        obj.GetComponent<Rigidbody2D>().AddForce(Vector2.up, ForceMode2D.Impulse);
+    }
+
+    private IEnumerator SplitMicrobee(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        Spawner.instance.OnSpawnDeterminedMicrobee(nutriCompetibility);
+        markedToSplit = false;
+        SetSize(0);
+    }
 
     public bool IsReady()
     {
@@ -186,7 +234,7 @@ public class GuttyBehaviour : MonoBehaviour
         if (primaryColour == null)
             Debug.LogError($"colour property {colourName} not found.", this);
 
-        // PLEASE FUTURE ME DO THIS MUCH BETTER
+        // PLEASE FUTURE ME DO THIS BETTER
         switch (nutriCompetibility)
         {
             case NutriType.Blue: primaryColour.Value = blue;
@@ -202,6 +250,20 @@ public class GuttyBehaviour : MonoBehaviour
                 break;
         }
         guttyVisLoaded = true;
+    }
+
+    public void RandomType()
+    {
+        nutriCompetibility = (NutriType)Random.Range(0, System.Enum.GetValues(typeof(NutriType)).Length);
+    }
+
+    public void SetSimulated (bool state)
+    {
+        isSimulated = state;
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        rb.isKinematic = !state;  
+        CircleCollider2D col = GetComponent<CircleCollider2D>();
+        col.isTrigger = state;
     }
 
     public enum GuttyStates

@@ -1,15 +1,13 @@
 using Rive;
 using Rive.Components;
-using System.Collections.Generic;
 using UnityEngine;
-using static GuttyBehaviour;
 
 public class NutriBehaviour : MonoBehaviour
 {
     [SerializeField] private RiveWidget riveWidget; 
     public NutriType nutriType;
-    public float nutriValue; [SerializeField]
-    private float lifeSpawnTotal = 5f;
+    public float nutriValue;
+    [SerializeField] private float lifeSpawnTotal = 5f;
     private float lifeRemaining; 
 
     private ViewModelInstanceTriggerProperty fadeTriggerProperty;
@@ -21,7 +19,8 @@ public class NutriBehaviour : MonoBehaviour
     [SerializeField] private float ripplePushCD = .5f;
     private float timer = 0f;
 
-    public NutriSpawner spawnedFrom; 
+    private bool touched = false;
+
 
     private void Start()
     {
@@ -54,37 +53,40 @@ public class NutriBehaviour : MonoBehaviour
         deathTriggerProperty = instance.GetTriggerProperty(deathTrigName);
         if (deathTriggerProperty == null) Debug.LogError($"Trig property '{deathTriggerProperty}' not found.", this);
 
-        //deathTriggerProperty.OnTriggered += OnDeath; // why does this immediately trigger in unity
-    }
-
-    private void OnDeath()
-    {
-        if (spawnedFrom == null) Destroy(this.gameObject);
-        else spawnedFrom.HandleDespawn(this); 
     }
 
 
     private void FixedUpdate()
     {
+        
+
+        if (!touched) return; 
         if (lifeRemaining > 0f)
         {
             lifeRemaining -= Time.deltaTime;
 
-            float relativeTime = (lifeSpawnTotal - lifeRemaining) / lifeSpawnTotal;
-            Debug.Log(relativeTime);
-            transform.localScale = new Vector3(1- relativeTime, 1- relativeTime,1-  relativeTime); 
+            //float relativeTime = (lifeSpawnTotal - lifeRemaining) / lifeSpawnTotal;
+            //Debug.Log(relativeTime);
+            //transform.localScale = new Vector3(1- relativeTime, 1- relativeTime,1-  relativeTime); 
 
         }
-        else OnDeath();
-        //fadeTriggerProperty.Trigger(); 
+        else Destroy(gameObject);
 
         if (timer < 0f) timer -= Time.deltaTime;
     }
     public void HandleRipplePush()
     {
+        if (touched) return;
         if (timer > 0f) return;
+        touched = true;
+        timer = ripplePushCD;
 
-        timer = ripplePushCD; 
+        CircleCollider2D Col2D = GetComponent<CircleCollider2D>();
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+
+        Col2D.isTrigger = false;
+        rb.gravityScale = 1f;
+        rb.drag = .5f;
     }
 
     public void RandomType()

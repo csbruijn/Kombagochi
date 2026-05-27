@@ -644,9 +644,9 @@ GameObject:
   - component: {fileID: 9007956041503365319}
   - component: {fileID: 8525174464820628954}
   - component: {fileID: 626857117544968229}
-  - component: {fileID: 7258369274077220170}
+  - component: {fileID: -272305881514937616}
   m_Layer: 0
-  m_Name: Gutty
+  m_Name: Microbee
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -667,6 +667,7 @@ Transform:
   m_Children:
   - {fileID: 7360254901035171845}
   - {fileID: 3357058622923470625}
+  - {fileID: 1983222591914355730}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &9007956041503365319
@@ -678,21 +679,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 5759187096575391326}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6aacfd56ac40b7343983290630e673f1, type: 3}
+  m_Script: {fileID: 11500000, guid: c78cc31082e7d1f418fda944b476b3ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   nutriCompetibility: 0
   decaySpeed: 1
   Gutty: {fileID: 1509474251113802759}
-  EatTrigName: null
+  EatTrigName: 
   HealthMountName: health
   EyeXName: followX
   EyeYName: followY
   colourName: colourPrimary
-  red: {r: 0.87058824, g: 0.14509805, b: 0.14509805, a: 1}
-  green: {r: 0.5921569, g: 0.87058824, b: 0.14509805, a: 1}
-  blue: {r: 0.17254902, g: 0.37254903, b: 0.95686275, a: 1}
-  yellow: {r: 0.9529412, g: 0.60784316, b: 0.07058824, a: 1}
+  red: {r: 0.9528302, g: 0.13932894, b: 0.13932894, a: 1}
+  green: {r: 0.27819145, g: 0.9150943, b: 0.19424175, a: 1}
+  blue: {r: 0.22079298, g: 0.13163051, b: 0.9622642, a: 1}
+  yellow: {r: 0.9245283, g: 0.7760478, b: 0.17007834, a: 1}
+  spawnNutri: 0
   NutriFattyAcid: {fileID: 7215626115658436412, guid: 0069f1e020edb2b459f64f48d13dd109, type: 3}
 --- !u!58 &8525174464820628954
 CircleCollider2D:
@@ -728,7 +730,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 1
+  m_Radius: 0.5
 --- !u!114 &626857117544968229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -741,7 +743,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52191c96f47dd9649810cae33919b593, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!50 &7258369274077220170
+--- !u!50 &-272305881514937616
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
@@ -753,9 +755,9 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 3
-  m_LinearDrag: 0.5
-  m_AngularDrag: 0.05
+  m_Mass: 1.2
+  m_LinearDrag: 0.1
+  m_AngularDrag: 2
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -767,4 +769,35 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Constraints: 0
+--- !u!1 &8578929372757276700
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1983222591914355730}
+  m_Layer: 0
+  m_Name: GameObject (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1983222591914355730
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8578929372757276700}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2.1, y: -0.01999998, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5083207382202620005}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
