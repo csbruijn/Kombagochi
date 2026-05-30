@@ -32,11 +32,20 @@ public class Spawner : MonoBehaviour
 
     private void Start()
     {
-        OnSpawnWaveGuaranteeMicrobee();
+        //OnSpawnWaveGuaranteeMicrobee();
     }
+
+    int waveCount = 0; 
 
     public void OnSpawnWave()
     {
+        if (waveCount < 2)
+        {
+            StartCoroutine(SpawnWave(true));
+            waveCount++;
+            return;
+        }
+        
         StartCoroutine(SpawnWave());
     }
 

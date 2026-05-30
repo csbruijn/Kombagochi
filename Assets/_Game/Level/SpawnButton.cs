@@ -4,22 +4,51 @@ using UnityEngine;
 using UnityEngine.Events;
 
 
-public class ButtonReader : MonoBehaviour
+public class SpawnButton: MonoBehaviour
 {
     [Header("Rive")]
     [Tooltip("The Rive Widget that is displaying your file.")]
     [SerializeField] private RiveWidget m_riveWidget;
 
     [Tooltip("ViewModel Trigger property name fired by the Rive file.")]
-    [SerializeField] private string mOnTriggerPropName = "Trig";
-
+    [SerializeField] private string mOnTriggerPropName = "click";
     private ViewModelInstanceTriggerProperty OnTriggerProp;
 
     [Tooltip("Invoked when the Rive file fires the gameOver trigger.")]
-    public UnityEvent OnGameStart = new UnityEvent();
+    public UnityEvent OnButtonTrigger = new UnityEvent();
 
-    [SerializeField] private string buttonTxPropNamet = "buttonText";
-    [SerializeField] private string buttonTxt = "Redeem & Play"; 
+    private ViewModelInstanceNumberProperty timerProp;
+    [SerializeField] private string timerPropNamet = "timer";
+    private float timer = 0;
+    [SerializeField] private float resetTime = 180;
+
+    public bool speedUp = true;
+    [SerializeField] float speedUpFactor = 10; 
+
+
+    private void HandleButtonTriggeredFromRive()
+    {
+        if (timer > 0) return; 
+        timer = resetTime; 
+        OnButtonTrigger.Invoke();
+    }
+
+    private void Update()
+    {
+
+        if (!widgetIsLoaded) return;
+
+        if (timer > 0)
+        {
+            float multiplier = 1;
+            if (speedUp) multiplier *= speedUpFactor;
+            timer -= Time.deltaTime * multiplier;
+
+            timerProp.Value = timer; 
+        }
+    }
+
+
 
     void OnEnable()
     {
@@ -42,6 +71,7 @@ public class ButtonReader : MonoBehaviour
         }
     }
 
+    bool widgetIsLoaded = false;
     private void HandleWidgetStatusChanged()
     {
 
@@ -62,7 +92,6 @@ public class ButtonReader : MonoBehaviour
             return;
         }
 
-        // Get the gameOver property by name.
         OnTriggerProp = viewModelInstance.GetTriggerProperty(mOnTriggerPropName);
         if (OnTriggerProp == null)
         {
@@ -72,20 +101,17 @@ public class ButtonReader : MonoBehaviour
 
         OnTriggerProp.OnTriggered += HandleButtonTriggeredFromRive;
 
-        // Get the gameOver property by name.
-        ViewModelInstanceStringProperty buttonTxtProp = viewModelInstance.GetStringProperty(buttonTxPropNamet);
-        if (buttonTxtProp == null)
+        timerProp = viewModelInstance.GetNumberProperty(timerPropNamet);
+        if (timerProp == null)
         {
-            Debug.LogError($"{nameof(ButtonReader)}: Trigger property '{buttonTxPropNamet}' not found.", this);
+            Debug.LogError($"{nameof(ButtonReader)}: Trigger property '{timerPropNamet}' not found.", this);
             return;
         }
+        timerProp.Value = timer;
 
-        buttonTxtProp.Value = buttonTxt; 
+        widgetIsLoaded = true;
     }
 
-    private void HandleButtonTriggeredFromRive()
-    {
-        OnGameStart.Invoke();
-    }
+
 
 }
