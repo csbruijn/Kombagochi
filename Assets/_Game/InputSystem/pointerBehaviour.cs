@@ -15,7 +15,7 @@ public class PointerBehaviour : MonoBehaviour
     [SerializeField] private float rippleForce = 10f;
 
     [Header("Slot Assignment")]
-    [SerializeField] private MicrobeeSlot[] slots;   // assign all slots in Inspector
+    [SerializeField] private MicrobeeSlot[] slots;   
 
     public static event Action<MicrobeeBehaviour> OnRemoval;
 
@@ -56,18 +56,15 @@ public class PointerBehaviour : MonoBehaviour
         HandleClick(newPos);
     }
 
-    
-
+   
     private void HandleClick(Vector2 origin)
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(origin, rippleRadius);
 
         foreach (Collider2D hit in hits)
         {
-            // --- Nutri push ---
             hit.GetComponent<NutriBehaviour>()?.HandleRipplePush();
 
-            // --- Microbee slot assignment ---
             if (hit.TryGetComponent<MicrobeeBehaviour>(out MicrobeeBehaviour mb))
             {
                 if (mb.isSimulated)
@@ -84,10 +81,20 @@ public class PointerBehaviour : MonoBehaviour
                     Destroy(mb.gameObject);
                     OnRemoval.Invoke(mb);
                 }
+                else
+                {
+                    mb.OnClicked();
+                }
             }
         }
     }
 
+
+    /// <summary>
+    /// assign the nearest spot 
+    /// </summary>
+    /// <param name="origin">coorditnates to look from </param>
+    /// <returns></returns>
     private MicrobeeSlot FindNearestFreeSlot(Vector2 origin)
     {
         MicrobeeSlot nearest = null;

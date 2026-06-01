@@ -21,6 +21,16 @@ public class ButtonReader : MonoBehaviour
     [SerializeField] private string buttonTxPropNamet = "buttonText";
     [SerializeField] private string buttonTxt = "Redeem & Play"; 
 
+    private bool isReady = false;
+
+    public void CheckIfFilled(string val)
+    {
+        if (val != null || val != "")
+        {
+            isReady = true;
+        }
+    }
+
     void OnEnable()
     {
         if (m_riveWidget == null)
@@ -83,8 +93,16 @@ public class ButtonReader : MonoBehaviour
         buttonTxtProp.Value = buttonTxt; 
     }
 
+
+    private int foolproof = 0; 
     private void HandleButtonTriggeredFromRive()
     {
+        if (!isReady)
+        {
+            foolproof++;
+            if (foolproof > 2) isReady = true; 
+            return ;
+        }
         OnGameStart.Invoke();
     }
 

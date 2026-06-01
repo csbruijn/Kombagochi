@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance {  get; private set; }
 
+    public static bool IsPaused;
     public GameObject Ripple { get; private set; }
 
     public bool GameStarted { get; private set; } = true; 

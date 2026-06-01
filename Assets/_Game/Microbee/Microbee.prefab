@@ -440,8 +440,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Rive.Runtime.Components::Rive.Components.RiveWidget
   m_rivePanel: {fileID: 8950979990661911270}
-  m_asset: {fileID: -4516626237390682484, guid: 4c3bff4ee2c660c4591c6e96e80ab0b5, type: 3}
-  m_artboardName: Artboard
+  m_asset: {fileID: -4516626237390682484, guid: 64b62dbd027a54841a0d35bc4efaace1, type: 3}
+  m_artboardName: Microbee
   m_stateMachineName: State Machine 1
   m_fit: 1
   m_alignment:
@@ -684,18 +684,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nutriCompetibility: 0
   decaySpeed: 1
+  spawnNutri: 0
+  NutriFattyAcid: {fileID: 7215626115658436412, guid: 0069f1e020edb2b459f64f48d13dd109, type: 3}
   Gutty: {fileID: 1509474251113802759}
   EatTrigName: 
   HealthMountName: health
   EyeXName: followX
   EyeYName: followY
   colourName: colourPrimary
-  red: {r: 0.9528302, g: 0.13932894, b: 0.13932894, a: 1}
-  green: {r: 0.27819145, g: 0.9150943, b: 0.19424175, a: 1}
-  blue: {r: 0.22079298, g: 0.13163051, b: 0.9622642, a: 1}
-  yellow: {r: 0.9245283, g: 0.7760478, b: 0.17007834, a: 1}
-  spawnNutri: 0
-  NutriFattyAcid: {fileID: 7215626115658436412, guid: 0069f1e020edb2b459f64f48d13dd109, type: 3}
+  secondaryColourName: colourSecondary
+  red: {r: 0.87058824, g: 0.14509805, b: 0.14509805, a: 1}
+  redSecondary: {r: 0.98039216, g: 0.47058824, b: 0.47058824, a: 1}
+  green: {r: 0.5921569, g: 0.87058824, b: 0.14509805, a: 1}
+  greenSecondary: {r: 0.78039217, g: 0.99215686, b: 0.44705883, a: 1}
+  blue: {r: 0.3254902, g: 0.13163051, b: 0.87058824, a: 1}
+  blueSecondary: {r: 0.6039216, g: 0.48235294, b: 0.95686275, a: 1}
+  yellow: {r: 0.9529412, g: 0.60784316, b: 0.07058824, a: 1}
+  yellowSecondary: {r: 0.9647059, g: 0.7490196, b: 0.40784314, a: 1}
 --- !u!58 &8525174464820628954
 CircleCollider2D:
   m_ObjectHideFlags: 0

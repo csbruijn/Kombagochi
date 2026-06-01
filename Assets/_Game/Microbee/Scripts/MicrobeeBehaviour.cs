@@ -39,15 +39,20 @@ public class MicrobeeBehaviour : MonoBehaviour
     [SerializeField] private string EyeXName = "followX";
     [SerializeField] private string EyeYName = "followY";
 
+    private ViewModelInstanceTriggerProperty onClickProp; 
+    [SerializeField] private string onClickPropName = "click"; 
+    
+    [Header("colours")]
     private ViewModelInstanceColorProperty primaryColour;
     [SerializeField] private string colourName = "colourPrimary";
+   
+    private ViewModelInstanceColorProperty secondaryColour;
+    [SerializeField] private string secondaryColourName = "colourSecondary";
 
-    [Header("Dumb way to do colours to check if it works")]
-
-    [SerializeField] private UnityEngine.Color red;
-    [SerializeField] private UnityEngine.Color green;
-    [SerializeField] private UnityEngine.Color blue;
-    [SerializeField] private UnityEngine.Color yellow;
+    [SerializeField] private UnityEngine.Color red, redSecondary;
+    [SerializeField] private UnityEngine.Color green , greenSecondary;
+    [SerializeField] private UnityEngine.Color blue, blueSecondary;
+    [SerializeField] private UnityEngine.Color yellow, yellowSecondary;
 
 
 
@@ -187,6 +192,11 @@ public class MicrobeeBehaviour : MonoBehaviour
         SetSize(0);
     }
 
+    public void OnClicked()
+    {
+        onClickProp.Trigger();
+    }
+
     public bool IsReady()
     {
         if (!guttyVisLoaded) return false;  
@@ -234,19 +244,32 @@ public class MicrobeeBehaviour : MonoBehaviour
         if (primaryColour == null)
             Debug.LogError($"colour property {colourName} not found.", this);
 
+        secondaryColour = viewModelInstance.GetColorProperty(secondaryColourName);
+        if (primaryColour == null)
+            Debug.LogError($"colour property {secondaryColourName} not found.", this);
+
+        onClickProp = viewModelInstance.GetTriggerProperty(onClickPropName);
+        if (primaryColour == null)
+            Debug.LogError($"trigger property {onClickPropName} not found.", this);
+
         // PLEASE FUTURE ME DO THIS BETTER
         switch (nutriCompetibility)
         {
-            case NutriType.Blue: primaryColour.Value = blue;
+            case NutriType.Blue: 
+                primaryColour.Value = blue;
+                secondaryColour.Value = blueSecondary;
                 break;
             case NutriType.Green:
                 primaryColour.Value = green;
+                secondaryColour.Value = greenSecondary;
                 break;
             case NutriType.Red:
                 primaryColour.Value = red;
+                secondaryColour.Value = redSecondary;
                 break;
             case NutriType.Yellow:
                 primaryColour.Value = yellow;
+                secondaryColour.Value = yellowSecondary;
                 break;
         }
         guttyVisLoaded = true;
