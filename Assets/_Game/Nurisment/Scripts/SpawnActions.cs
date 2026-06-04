@@ -30,8 +30,9 @@ public class SpawnActions: MonoBehaviour
 
      private bool overlayActive = false;
 
-    [SerializeField]  private GameObject overlay; 
+    [SerializeField]  private GameObject overlay;
 
+    bool firstTime = true; 
     private void HandleButtonTriggeredFromRive()
     {
         if (timer > 0)
@@ -42,7 +43,10 @@ public class SpawnActions: MonoBehaviour
             
             return;
         }
-        timer = resetTime; 
+        if (firstTime)
+        { timer = resetTime / 2; firstTime = false; }
+        else timer = resetTime; 
+
         OnButtonTrigger.Invoke();
     }
 
